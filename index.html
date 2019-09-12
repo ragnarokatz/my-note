@@ -8,20 +8,32 @@
 </head>
 
 <body>
+	<header>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Online Notes</h1>
+				</div>
+			</div>
+		</div>
+	</header>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Online Notes</h1>
+				<textarea id="notepad" rows="4" cols="50"></textarea>
 			</div>
 		</div>
 	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div id="notepad" contenteditable></div>
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<button class="btn btn-success" onclick="saveFile()" type="button">Save</button>
+					<button class="btn btn-primary" onclick="clearText()" type="button">Clear</button>
+				</div>
 			</div>
 		</div>
-	</div>
+	</footer>
 
 </body>
 
@@ -37,13 +49,18 @@
 
 		// load old notes
 		fs.readFile('/note', 'utf8', function (err, data) {
-			document.querySelector("#notepad").innerHTML = err ? "Enter your notes here" : data;
+			document.querySelector("#notepad").value = err ? "Enter your notes here" : data;
 		});
 	});
 
 	// save notes
 	function saveFile() {
-		fs.writeFile('/note', document.querySelector('#notepad').innerHTML);
+		fs.writeFile('/note', document.querySelector('#notepad').value);
+	}
+
+	// clear text
+	function clearText() {
+		document.querySelector('#notepad').value = "";
 	}
 
 	// auto save
