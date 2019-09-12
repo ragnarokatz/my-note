@@ -1,12 +1,40 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>My Web Page</title>
-    </head>
 
-    <body>
-        <!-- This is a comment -->
-        <h1>Hello World!</h1>
-    </body>
+<head>
+	<meta charset="utf-8">
+	<title>Fluffiest Bunny's Online Notes</title>
+</head>
+
+<body>
+	<!-- This is a comment -->
+	<h1>Enter your notes below</h1>
+	<div id="notepad" contenteditable></div>
+</body>
+
+<script src="https://unpkg.com/filer/dist/filer.min.js"></script>
+<script>
+
+	// initialize file system
+	const fs = new Filer.FileSystem();
+
+	// load DOM content
+	window.addEventListener('DOMContentLoaded', (event) => {
+		console.log('DOM fully loaded and parsed');
+
+		// load old notes
+		fs.readFile('/note', 'utf8', function (err, data) {
+			document.querySelector("#notepad").innerHTML = err ? "Enter your notes here" : data;
+		});
+	});
+
+	// save notes
+	function saveFile() {
+		fs.writeFile('/note', document.querySelector('#notepad').innerHTML);
+	}
+
+	// auto save
+	setInterval(() => { this.saveFile() }, 2000);
+</script>
+
 </html>
