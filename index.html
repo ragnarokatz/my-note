@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<title>Fluffiest Bunny</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css">
+	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 
 <body>
@@ -20,7 +21,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<textarea id="notepad" rows="4" cols="50"></textarea>
+				<!-- Create the editor container -->
+				<div id="editor"></div>
 			</div>
 		</div>
 	</div>
@@ -37,8 +39,14 @@
 
 </body>
 
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="https://unpkg.com/filer/dist/filer.min.js"></script>
 <script>
+
+	//initialize the quill editor
+	var editor = new Quill('#editor', {
+		theme: 'snow'
+	});
 
 	// initialize file system
 	const fs = new Filer.FileSystem();
@@ -49,18 +57,18 @@
 
 		// load old notes
 		fs.readFile('/note', 'utf8', function (err, data) {
-			document.querySelector("#notepad").value = err ? "Enter your notes here" : data;
+			document.querySelector("#editor").value = err ? editor.setContents("Enter your notes here") : editor.setContents(JSON.parse(data));
 		});
 	});
 
 	// save notes
 	function saveFile() {
-		fs.writeFile('/note', document.querySelector('#notepad').value);
+		fs.writeFile('/note', JSON.stringify(editor.getContents()));
 	}
 
 	// clear text
 	function clearText() {
-		document.querySelector('#notepad').value = "";
+		editor.setContents("");
 	}
 
 	// auto save
