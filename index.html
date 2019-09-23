@@ -30,8 +30,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<button class="btn btn-success" onclick="saveFile()" type="button">Save</button>
-					<button class="btn btn-primary" onclick="clearText()" type="button">Clear</button>
+					<button class="btn btn-success" onclick="saveFile();alert('Data saved!')" type="button">Save</button>
+					<button class="btn btn-primary" onclick="clearText();alert('Data will be cleared!')" type="button">Clear</button>
 				</div>
 			</div>
 		</div>
@@ -68,7 +68,7 @@
 
 	// clear text
 	function clearText() {
-		editor.setContents("");
+		editor.setContents("");		
 	}
 
 	// auto save
